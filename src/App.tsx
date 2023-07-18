@@ -1,25 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+// import { GoogleOAuthProvider } from '@react-oauth/google';
+// import GoogleAuth from './google-auth';
+import Dashboard from './components/Dashboard';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#17CFBB',
+    },
+    secondary: {
+      main: '#AF0606',
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <ThemeProvider theme={theme}>
+        <Dashboard />
+      </ThemeProvider>
+
+      {/* <GoogleOAuthProvider clientId="800323243395-5qdnl1g865deebskcjvsfiqp3g61q33o.apps.googleusercontent.com">
+          <GoogleAuth />
+        </GoogleOAuthProvider>  */}
+    </React.Fragment>
   );
 }
 

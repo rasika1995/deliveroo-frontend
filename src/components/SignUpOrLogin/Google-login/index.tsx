@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getToken, newExpirationDate, tokenExpired } from './tokens';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function GoogleAuthLogin() {
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
@@ -21,6 +23,7 @@ function GoogleAuthLogin() {
 
   const handleTokenFromSessionStore = async () => {
     const accessToken = sessionStorage.getItem('accessToken');
+    console.log(accessToken);
     if (!accessToken) {
       handleTokenFromQueryParams();
       return;
@@ -36,6 +39,7 @@ function GoogleAuthLogin() {
   };
 
   const handleTokenFromQueryParams = () => {
+    console.log('test');
     const query = new URLSearchParams(window.location.search);
     const accessToken = query.get('accessToken');
     const refreshToken = query.get('refreshToken');
@@ -47,6 +51,7 @@ function GoogleAuthLogin() {
     }
     storeTokenData(accessToken, refreshToken, expirationDate);
     setIsLoggedIn(true);
+    navigate('/sign-up-or-login');
     window.location.href = 'http://localhost:3000/';
   };
 
@@ -63,34 +68,6 @@ function GoogleAuthLogin() {
 
   return (
     <div>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
-      <h1>Google</h1>
       {!isLoggedIn ? (
         <button onClick={createGoogleAuthLink}>Login</button>
       ) : (

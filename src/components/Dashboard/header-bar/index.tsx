@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, Stack } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -53,6 +53,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function HeaderBar() {
+  const navigate = useNavigate();
+
+  const handleSignUpOrLoginClick = () => {
+    navigate('/sign-up-or-login');
+  };
   return (
     <AppBar position="fixed" color="default">
       <Toolbar>
@@ -73,7 +78,7 @@ export default function HeaderBar() {
         >
           deliveroo
         </Typography>
-        <Search className='search-bar'>
+        <Search className="search-bar">
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
@@ -83,16 +88,15 @@ export default function HeaderBar() {
           <Button variant="outlined">
             <ShoppingBasketIcon /> $ 0.00
           </Button>
-          <Button variant="outlined">
+          <Button variant="outlined" onClick={handleSignUpOrLoginClick}>
             <HomeIcon /> Sign up or login
           </Button>
           <Button variant="outlined">
             <MenuIcon />
             Menu
           </Button>
-         </Stack>
+        </Stack>
       </Toolbar>
     </AppBar>
   );
 }
-

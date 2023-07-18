@@ -75,8 +75,7 @@ function Dashboard() {
       <Container>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Paper style={{ height: '300px', overflowY: 'scroll' }}>
-            </Paper>
+            <Paper style={{ height: '300px', overflowY: 'scroll' }}></Paper>
           </Grid>
         </Grid>
       </Container>
@@ -103,8 +102,6 @@ function Dashboard() {
           <Paper style={{ height: '200px', backgroundColor: 'gray' }}>Bottom</Paper>
         </Grid>
       </Grid>
-
-      {/* <GoogleAuthLogin /> */}
     </React.Fragment>
   );
 }

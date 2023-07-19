@@ -40,30 +40,11 @@ export const getToken = (): AppThunk<Promise<string | null>> => async (dispatch:
     }
 
     const response = await axios.post('http://localhost:8080/getValidToken', { refreshToken });
-    const accessToken = response.data.accessToken;
+
+    const accessToken = response.data.data.accessToken;
     return accessToken;
   } catch (error) {
     console.error('Error refreshing token:', error);
     return null;
   }
 };
-
-// // Function to get a new token using the refresh token
-// export const getToken = createAsyncThunk<string | null, void>(
-//   'auth/getToken',
-//   async (_, thunkAPI) => {
-//     try {
-//       const refreshToken = sessionStorage.getItem('refreshToken');
-//       if (!refreshToken) {
-//         return null;
-//       }
-
-//       const response = await axios.post('http://localhost:8080/getValidToken', { refreshToken });
-//       const accessToken = response.data.accessToken;
-//       return accessToken;
-//     } catch (error) {
-//       console.error('Error refreshing token:', error);
-//       return null;
-//     }
-//   }
-// );

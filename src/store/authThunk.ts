@@ -20,12 +20,14 @@ export const checkTokenExpiration =
       try {
         const newToken = await dispatch(getToken());
 
-        if (newToken && newToken.accessToken) {
-          dispatch(setAccessToken(newToken.accessToken));
+        if (newToken) {
+          dispatch(setAccessToken(newToken));
           // Update the expiration date to a new value (e.g., add an hour)
           const newExpirationDate = new Date();
           newExpirationDate.setHours(newExpirationDate.getHours() + 1);
           dispatch(setExpirationDate(newExpirationDate.toISOString()));
+          sessionStorage.setItem('accessToken', newToken);
+          sessionStorage.setItem('expirationDate', newExpirationDate.toISOString());
         } else {
           dispatch(setLoggedIn(false));
         }

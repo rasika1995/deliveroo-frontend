@@ -1,4 +1,6 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { AppThunk } from '../../../store/types';
 
 export const newExpirationDate = (): Date => {
   const expiration = new Date();
@@ -18,25 +20,15 @@ export const tokenExpired = (): boolean => {
   return now > expDate.getTime();
 };
 
-// export const getValidTokenFromServer = async (refreshToken: string): Promise<{ accessToken: string }> => {
-//     console.log("CallGetNewToken")
-//     // get new token from server with refresh token
-//     try {
-//       const request = await fetch("http://localhost:8080/getValidToken", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           refreshToken: refreshToken,
-//         }),
-//       });
-//       const token = await request.json();
-//       return token;
-//     } catch (error: any) {
-//       throw new Error("Issue getting new token", error.message);
-//     }
-//   };
+export const createGoogleAuthLink = (): AppThunk => async (dispatch: any) => {
+  try {
+    const response = await axios.get('http://localhost:8080/createAuthLink');
+    window.location.href = response.data.url;
+  } catch (error: any) {
+    console.log('error', error);
+    throw new Error('Issue with Login', error.message);
+  }
+};
 
 export const getValidTokenFromServer = async (
   refreshToken: string
@@ -52,18 +44,19 @@ export const getValidTokenFromServer = async (
     throw new Error('Issue getting new token', error.message);
   }
 };
-
-export const getToken = async (): Promise<string | null> => {
+// Function to get a new token using the refresh token
+export const getToken = createAsyncThunk<string | null, void>('auth/getToken', async (_, thunkAPI) => {
   try {
     const refreshToken = sessionStorage.getItem('refreshToken');
-    if (refreshToken) {
-      const newTokenObj = await getValidTokenFromServer(refreshToken);
-      sessionStorage.setItem('accessToken', newTokenObj.accessToken);
-      sessionStorage.setItem('expirationDate', newExpirationDate().toISOString());
-      return newTokenObj.accessToken;
+    if (!refreshToken) {
+      return null;
     }
+
+    const response = await axios.post('http://localhost:8080/getValidToken', { refreshToken });
+    const accessToken = response.data.accessToken;
+    return accessToken;
+  } catch (error) {
+    console.error('Error refreshing token:', error);
     return null;
-  } catch (error: any) {
-    throw new Error('Issue getting valid token from refresh token', error.message);
   }
-};
+});

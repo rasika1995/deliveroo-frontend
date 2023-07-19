@@ -11,6 +11,9 @@ import { Button, Stack } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../../store/store';
+import { clearLoggedIn } from '../../store/authReducer';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,9 +57,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function HeaderBar() {
   const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const dispatch = useAppDispatch();
+  console.log("isLoggedIn", isLoggedIn)
 
   const handleSignUpOrLoginClick = () => {
     navigate('/sign-up-or-login');
+  };
+
+  const handleSignOutClick  = () => {
+    dispatch(clearLoggedIn());
+    sessionStorage.clear();
+    navigate('/');
   };
   return (
     <AppBar position="fixed" color="default">
@@ -88,8 +100,8 @@ export default function HeaderBar() {
           <Button variant="outlined">
             <ShoppingBasketIcon /> $ 0.00
           </Button>
-          <Button variant="outlined" onClick={handleSignUpOrLoginClick}>
-            <HomeIcon /> Sign up or login
+          <Button variant="outlined" onClick={!isLoggedIn ? handleSignUpOrLoginClick : handleSignOutClick}>
+            {!isLoggedIn? <><HomeIcon /> Sign up or login</>: <>Sign Out</>}
           </Button>
           <Button variant="outlined">
             <MenuIcon />

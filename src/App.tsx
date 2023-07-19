@@ -2,6 +2,8 @@ import React, { Suspense } from 'react';
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/store'; // Import your Redux store here
 
 const theme = createTheme({
   palette: {
@@ -14,12 +16,14 @@ const theme = createTheme({
   },
 });
 
+console.log(store.getState());
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const SignUpOrLogin = React.lazy(() => import('./pages/SignUpOrLogin'));
 
 function App() {
   return (
-    <React.Fragment>
+    <React.StrictMode>
+      <Provider store={store}>
       <ThemeProvider theme={theme}>
         <Router>
           <Suspense fallback={<div>Loading...</div>}>
@@ -30,9 +34,9 @@ function App() {
             </Routes>
           </Suspense>
         </Router>
-        {/* <Dashboard /> */}
       </ThemeProvider>
-    </React.Fragment>
+      </Provider>
+      </React.StrictMode>
   );
 }
 

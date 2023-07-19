@@ -7,6 +7,7 @@ import { getToken, newExpirationDate, tokenExpired } from './Google-login/tokens
 
 const SignUpOrLogin = () => {
   const handleContinueWithGoogle = () => {
+
     // Implement the logic for continuing with Google here
   };
 
@@ -24,7 +25,8 @@ const SignUpOrLogin = () => {
    // Implement the logic for continuing with Google here
   const createGoogleAuthLink = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/createAuthLink');
+      const response = await axios.get('http://localhost:8080/createAuthLink');
+      console.log(response)
       window.location.href = response.data.url;
     } catch (error: any) {
       console.log('error', error);

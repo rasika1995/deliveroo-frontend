@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import HeaderBar from './header-bar';
-import SubHeaderBar from './sub-header-bar';
+import HeaderBar from '../../components/header-bar';
+import SubHeaderBar from '../../components/sub-header-bar';
 import { Container, Grid, Paper } from '@mui/material';
 
 interface Category {

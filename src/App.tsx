@@ -1,8 +1,5 @@
 import React, { Suspense } from 'react';
 import './App.css';
-
-// import { GoogleOAuthProvider } from '@react-oauth/google';
-// import GoogleAuth from './google-auth';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -17,8 +14,8 @@ const theme = createTheme({
   },
 });
 
-const Dashboard = React.lazy(() => import('./components/Dashboard'));
-const SignUpOrLogin = React.lazy(() => import('./components/SignUpOrLogin'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const SignUpOrLogin = React.lazy(() => import('./pages/SignUpOrLogin'));
 
 function App() {
   return (
@@ -35,10 +32,6 @@ function App() {
         </Router>
         {/* <Dashboard /> */}
       </ThemeProvider>
-
-      {/* <GoogleOAuthProvider clientId="800323243395-5qdnl1g865deebskcjvsfiqp3g61q33o.apps.googleusercontent.com">
-          <GoogleAuth />
-        </GoogleOAuthProvider>  */}
     </React.Fragment>
   );
 }

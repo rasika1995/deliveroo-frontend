@@ -20,6 +20,7 @@ export const tokenExpired = (): boolean => {
   return now > expDate.getTime();
 };
 
+// Function to get a new token using the refresh token
 export const createGoogleAuthLink = (): AppThunk => async (dispatch: any) => {
   try {
     const response = await axios.get('http://localhost:8080/createAuthLink');
@@ -30,22 +31,8 @@ export const createGoogleAuthLink = (): AppThunk => async (dispatch: any) => {
   }
 };
 
-export const getValidTokenFromServer = async (
-  refreshToken: string
-): Promise<{ accessToken: string }> => {
-  // get new token from server with refresh token
-  try {
-    const response = await axios.post('http://localhost:8080/getValidToken', {
-      refreshToken: refreshToken,
-    });
-
-    return response.data;
-  } catch (error: any) {
-    throw new Error('Issue getting new token', error.message);
-  }
-};
 // Function to get a new token using the refresh token
-export const getToken = createAsyncThunk<string | null, void>('auth/getToken', async (_, thunkAPI) => {
+export const getToken = (): AppThunk<Promise<string | null>> => async (dispatch: any) => {
   try {
     const refreshToken = sessionStorage.getItem('refreshToken');
     if (!refreshToken) {
@@ -59,4 +46,24 @@ export const getToken = createAsyncThunk<string | null, void>('auth/getToken', a
     console.error('Error refreshing token:', error);
     return null;
   }
-});
+};
+
+// // Function to get a new token using the refresh token
+// export const getToken = createAsyncThunk<string | null, void>(
+//   'auth/getToken',
+//   async (_, thunkAPI) => {
+//     try {
+//       const refreshToken = sessionStorage.getItem('refreshToken');
+//       if (!refreshToken) {
+//         return null;
+//       }
+
+//       const response = await axios.post('http://localhost:8080/getValidToken', { refreshToken });
+//       const accessToken = response.data.accessToken;
+//       return accessToken;
+//     } catch (error) {
+//       console.error('Error refreshing token:', error);
+//       return null;
+//     }
+//   }
+// );

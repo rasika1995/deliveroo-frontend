@@ -1,9 +1,10 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store/store'; // Import your Redux store here
+import store, { useAppDispatch } from './store/store';
+import { checkTokenExpiration } from './store/authThunk';
 
 const theme = createTheme({
   palette: {
@@ -21,9 +22,16 @@ const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const SignUpOrLogin = React.lazy(() => import('./pages/SignUpOrLogin'));
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Check token expiration when the application starts
+    dispatch(checkTokenExpiration());
+  }, [dispatch]);
+
   return (
     <React.StrictMode>
-      <Provider store={store}>
+      {/* <Provider store={store}> */}
       <ThemeProvider theme={theme}>
         <Router>
           <Suspense fallback={<div>Loading...</div>}>
@@ -35,8 +43,8 @@ function App() {
           </Suspense>
         </Router>
       </ThemeProvider>
-      </Provider>
-      </React.StrictMode>
+      {/* </Provider> */}
+    </React.StrictMode>
   );
 }
 

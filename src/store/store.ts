@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
-  auth: authReducer, // Replace 'auth' with the actual slice name for authentication in your app
+  auth: authReducer,
   // Add other reducers here if needed
 });
 
 const store = configureStore({
-    reducer: rootReducer,
+  reducer: rootReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>; // Export RootState type

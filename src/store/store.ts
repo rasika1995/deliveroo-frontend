@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 import authReducer from './authReducer';
 import { useDispatch } from 'react-redux';
 import { combineReducers } from '@reduxjs/toolkit';

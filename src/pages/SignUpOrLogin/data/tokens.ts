@@ -20,7 +20,7 @@ export const tokenExpired = (): boolean => {
   return now > expDate.getTime();
 };
 
-// Function to get a new token using the refresh token
+// Function to google auth url
 export const createGoogleAuthLink = (): AppThunk => async (dispatch: any) => {
   try {
     const response = await axios.get('http://localhost:8080/createAuthLink');
